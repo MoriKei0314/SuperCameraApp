@@ -7,13 +7,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
-fun CameraScreen() {
-    // 実際にはCameraManagerなどでCameraXをセットアップし、
-    // ここにSurfaceProviderを渡す
+fun CameraScreen(onPreviewViewCreated: (PreviewView) -> Unit) {
     AndroidView(
         factory = { context ->
             PreviewView(context).apply {
-                // CameraXのプレビューバインド待ち
+                onPreviewViewCreated(this)
             }
         },
         modifier = Modifier.fillMaxSize()

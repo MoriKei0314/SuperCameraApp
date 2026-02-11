@@ -35,12 +35,16 @@ class MainActivity : ComponentActivity(), FoldableManager.FoldStateListener {
         }
     }
 
+    private lateinit var cameraManager: CameraManager
+    private var mainPreviewView: PreviewView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
         foldableManager = FoldableManager(this)
         foldableManager.setListener(this)
+        cameraManager = CameraManager(this)
 
         checkCameraPermission()
 
@@ -50,13 +54,24 @@ class MainActivity : ComponentActivity(), FoldableManager.FoldStateListener {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CameraScreen()
+                    CameraScreen(onPreviewViewCreated = { previewView ->
+                        mainPreviewView = previewView
+                        startCameraIfReady()
+                    })
                 }
             }
         }
 
-        // 折りたたみ状態の監視開始
         foldableManager.watchFoldState(lifecycleScope)
+    }
+
+    private fun startCameraIfReady() {
+        val mainView = mainPreviewView ?: return
+        cameraManager.startCamera(
+            lifecycleOwner = this,
+            mainPreviewView = mainView,
+            coverPreviewView = coverPresentation?.getPreviewView()
+        )
     }
 
     private fun checkCameraPermission() {
@@ -67,12 +82,13 @@ class MainActivity : ComponentActivity(), FoldableManager.FoldStateListener {
     }
 
     override fun onFoldStateChanged(isFolded: Boolean, isHalfOpened: Boolean) {
-        // デバイスが開かれた（または半分開いた）ときに背面ディスプレイを探す
         if (!isFolded) {
             showCoverDisplayPresentation()
         } else {
             hideCoverDisplayPresentation()
         }
+        // 状態が変わるたびにカメラのバインドを更新
+        startCameraIfReady()
     }
 
     private fun showCoverDisplayPresentation() {
