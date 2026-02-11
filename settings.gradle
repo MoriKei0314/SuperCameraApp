@@ -6,8 +6,7 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
-    // 依存関係の解決モードを「プロジェクト設定優先」に変更して競合を回避
-    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
