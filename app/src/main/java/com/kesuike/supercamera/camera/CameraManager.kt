@@ -1,4 +1,4 @@
-package com.yourname.supercamera.camera
+package com.kesuike.supercamera.camera
 
 import android.content.Context
 import androidx.camera.core.CameraSelector
