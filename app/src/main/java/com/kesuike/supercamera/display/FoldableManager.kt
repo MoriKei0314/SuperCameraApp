@@ -7,6 +7,7 @@ import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.collect
 
 /**
  * デバイスの折りたたみ状態（FLAT, HALF_OPENED等）を監視するクラス
