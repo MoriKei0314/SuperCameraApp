@@ -5,9 +5,8 @@ import androidx.window.layout.FoldingFeature
 import androidx.window.layout.WindowInfoTracker
 import androidx.window.layout.WindowLayoutInfo
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 
 /**
  * デバイスの折りたたみ状態（FLAT, HALF_OPENED等）を監視するクラス

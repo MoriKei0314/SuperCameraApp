@@ -15,7 +15,7 @@ import androidx.camera.view.PreviewView
 class CoverScreenPresentation(outerDisplay: Display, context: Context) : 
     Presentation(context, outerDisplay) {
 
-    private lateinit var previewView: PreviewView
+    private var previewView: PreviewView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +28,17 @@ class CoverScreenPresentation(outerDisplay: Display, context: Context) :
             )
         }
 
-        previewView = PreviewView(context).apply {
+        val pv = PreviewView(context).apply {
             layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
         }
+        previewView = pv
 
-        root.addView(previewView)
+        root.addView(pv)
         setContentView(root)
     }
 
-    fun getPreviewView(): PreviewView = previewView
+    fun getPreviewView(): PreviewView? = previewView
 }
